@@ -5,6 +5,8 @@ class Project{
   protected $pid      = null;
   protected $name     = null;
   protected $desc     = null;
+  protected $type     = null;
+  public    $ptypenm  = null;
   protected $opendt   = null;
   protected $closedt  = null;
   public    $oplogno  = null;
@@ -27,6 +29,7 @@ class Project{
      * -Get Project details
      * @param $pid
      * @param null $pnm
+     * @param null $ptype
      * @param null $pdesc
      * @param null $pstart
      * @param null $pend
@@ -34,7 +37,7 @@ class Project{
      */
 
 
-  function __construct($pid, $pnm = null, $pdesc = null, $pstart = null, $pend = null){
+  function __construct($pid = null, $pnm = null, $ptype = null, $pdesc = null, $pstart = null, $pend = null){
     /**
     *Project constructor
     *
@@ -47,14 +50,15 @@ class Project{
       if($pid == null){
           //Class is instantiated improperly_______________Actually Do nothing
           //Or throw an Exception
-          throw new Exception('Project class instantiated with null Project ID');
+          //throw new Exception('Project class instantiated with null Project ID');
       }
-      else if($pnm = null && $pdesc && $pstart = null && $pend = null){
+      else if($pnm == null && $ptype == null && $pdesc == null && $pstart == null && $pend == null){
           $this->retrieveProject($pid);
           //Retrieve other Project information from DATABASE
       }
       else{
-          $this->create($pid, $pnm, $pdesc, $pstart, $pend);
+          /** @var Create new Project function call $pnm */
+          $this->create($pid, $ptype, $pnm, $pdesc, $pstart, $pend);
       }
 
   }
@@ -64,12 +68,14 @@ class Project{
      *
      *PARAMETERS:
      * -Project ID             - pid
+     * -Prpject Type           - ptype
      * -Project Name           - pnm
      * -Project Description    - pdesc   --optional
      * -Project Start DateTime - pstart
      * -Project End DateTime   - pend    (EXPECTED)
      *
      * @param $pid
+     * @param $ptype
      * @param $pnm
      * @param $pdesc
      * @param $pstart
@@ -79,7 +85,7 @@ class Project{
      */
 
 
-  public function create($pid, $pnm, $pdesc, $pstart, $pend){
+  public function create($pid, $ptype, $pnm, $pdesc, $pstart, $pend){
 
       //Convert Project DateTimes to yyyy-mm-dd format
       $date = DateTime::createFromFormat('m/j/Y', $pstart);
@@ -92,7 +98,7 @@ class Project{
       $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
 
       //SQL QUERY
-      $QUERY = "INSERT INTO `PRJCTMASTER`(`PRJCTID`, `PRJCTNM`, `PRJCTDESCRI`, `OPENDT`, `CLOSEDT`, `OPLOGNO`) VALUES('$pid', '$pnm', '$pdesc', '$pstartx', '$pendx', '42')";
+      $QUERY = "INSERT INTO `PRJCTMASTER`(`PRJCTID`, `PRJCTTYPE`, `PRJCTNM`, `PRJCTDESCRI`, `OPENDT`, `CLOSEDT`, `OPLOGNO`) VALUES('$pid', '$ptype', '$pnm', '$pdesc', '$pstartx', '$pendx', '42')";
 
       //FEED DATA TO DATABASE
       if($db->query($QUERY)){
@@ -120,6 +126,8 @@ class Project{
         //FEED DATA TO DATABASE
         if($row = $db->get_row($QUERY)){
             $this->pid      = $pid;
+            $this->ptype    = $row->PRJCTTYPE;
+            $this->ptypenm  = $this->getProjectType($this->ptype);
             $this->name     = $row->PRJCTNM;
             $this->desc     = $row->PRJCTDESCRI;
             $this->opendt   = $row->OPENDT;
@@ -295,6 +303,43 @@ class Project{
         }
         else{
             throw new Exception('Unable to add new Project Type:<strong>'.$ptype.'</strong><br>Database Error');
+        }
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function retrieveAll(){
+
+        //Initialize DB pointer
+        $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
+
+        //SQL QUERY
+        $QUERY = "SELECT * FROM `PRJCTMASTER`";
+
+        //GET DATA FROM DATABASE
+        if($data = $db->get_results($QUERY)){
+            return json_encode($data);
+        }
+        else{
+            throw new Exception('Unable to fetch Project List');
+        }
+    }
+
+    public function getProjectType($ptype){
+        //Initialize DB pointer
+        $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
+
+        //SQL QUERY
+        $QUERY = "SELECT `PTYPENM` FROM `PTYPEMASTER` WHERE PTYPEID = '$ptype'";
+
+        //GET DATA FROM DATABASE
+        if($data = $db->get_var($QUERY)){
+            return $data;
+        }
+        else{
+            throw new Exception('Unable to fetch Project Type');
         }
     }
 

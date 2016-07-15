@@ -214,6 +214,17 @@ $('document').ready(function() {
 
     });
 
+    $('#project_table').DataTable( {
+        ajax: 'js/getProjectData.php',
+        columns: [
+                            { "data": "PRJCTID" },
+                            { "data": "PRJCTTYPE" },
+                            { "data": "PRJCTNM" },
+                            { "data": "PRJCTDESCRI" },
+                            { "data": "OPENDT" },
+                            { "data": "CLOSEDT" }
+                 ]
+    } );
 
 });
 

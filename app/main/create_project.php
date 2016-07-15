@@ -5,12 +5,12 @@ require_once('../login/classes/Login.php');
 require_once('../../scripts/sql/shared/ez_sql_core.php');
 require_once('../../scripts/sql/mysqli/ez_sql_mysqli.php');
 require_once('../../scripts/db-config.php');
-
+require_once('../../scripts/classes/employee.php');
+require_once('../../scripts/classes/artist.php');
 
 $login = new Login();
 
-require_once('../../scripts/classes/employee.php');
-require_once('../../scripts/classes/artist.php');
+
 
 // ... ask if we are logged in here:
 if ($login->isUserLoggedIn() == false)
@@ -51,6 +51,7 @@ $a = new Artist();
     <meta name="keywords" content="admin,dashboard" />
     <meta name="author" content="the-wire-coders" />
     <!-- Styles -->
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     <link href='../../assets/custom/open-sans-400-300-600.css' rel='stylesheet' type='text/css'>
     <link href="../../assets/plugins/pace-master/themes/blue/pace-theme-flash.css" rel="stylesheet" />
     <link href="../../assets/plugins/uniform/css/uniform.default.min.css" rel="stylesheet" />
@@ -74,6 +75,8 @@ $a = new Artist();
     <link href="../../assets/css/custom.css" rel="stylesheet" type="text/css" />
     <script src="../../assets/plugins/3d-bold-navigation/js/modernizr.js"></script>
     <script src="../../assets/plugins/offcanvasmenueffects/js/snap.svg-min.js"></script>
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -407,39 +410,29 @@ $a = new Artist();
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Row -->
+            </div><!-- Row -->
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-white">
                         <div class="panel-body">
-                            <?php
-
-                            echo '|'.$_SESSION['name'].'|'.$_SESSION['id'].'|';
-
-                            ?>
-                            <!-- Table for Task List-->
+                            <!-- Table for Completed Task List-->
                             <div class="table-responsive">
                                 <div id="msg"></div>
-                                <table id="taskList" class="table tablesorter">
+                                <table id="project_table" class="display">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Project<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Sequence<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Shot<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Version<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Supervisor/Client Notes<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>End Date<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>End Time<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Artist Notes<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Timer</th>
-                                    </tr>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>TYPE</th>
+                                            <th>NAME</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>OPEN-DATE</th>
+                                            <th>CLOSE-DATE</th>
+                                        </tr>
                                     </thead>
-                                    <tbody> </tbody>
                                 </table>
                             </div>
-                            <!-- End of Table for Task List-->
+                            <!-- End of Completed Table for Task List-->
 
                             <button id="openModalAP" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addProject"> NEW PROJECT </button>
 
@@ -448,39 +441,12 @@ $a = new Artist();
                 </div>
             </div>
             <!-- Row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-white">
-                        <div class="panel-body">
-                            <!-- Table for Completed Task List-->
-                            <div class="table-responsive">
-                                <div id="msg"></div>
-                                <table id="completed-taskList" class="table tablesorter">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Project<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Sequence<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Shot<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Version<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Supervisor/Client Notes<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>End Date<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>End Time<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Artist Notes<img src="../../assets/custom/sort-arrows.png" alt="th-img" height="8px" /></th>
-                                        <th>Timer</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody> </tbody>
-                                </table>
-                            </div>
-                            <!-- End of Completed Table for Task List-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Row -->
-        </div>
-        <!-- Main Wrapper -->
+
+
+
+
+        </div><!-- Main Wrapper -->
+
         <div class="page-footer">
             <p class="no-s">2015 &copy; by the-wire-coders.</p>
         </div>
@@ -787,10 +753,12 @@ $a = new Artist();
 <script src="../../assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="../../assets/plugins/toastr/toastr.min.js"></script>
 <script src="../../assets/js/pages/form-x-editable.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="../../assets/js/custom.js"></script>
 <script src="js/run-toast.js"></script>
 <script src="js/manage-project.js"></script>
 <script src="js/getProjectType.js"></script>
-<script src="../../assets/js/custom.js"></script>
+
 </body>
 
 </html>

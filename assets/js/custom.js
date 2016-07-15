@@ -40,4 +40,6 @@ function crStartClockNow() {
 
 crInitClock();
 
+    $('#table_id').DataTable();
+
 });

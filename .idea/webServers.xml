@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b9d788f6-a8e4-4974-ada3-62911828228a" name="publishkar" url="http://company.publishkar.com">
+        <fileTransfer host="company.publishkar.com" port="21" password="dfe9dfe3dffadfe6dfeadff9dfdfdfc9dfc9dfcfdfd9dfd9df98df9adf98df9a" username="blishkar">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
