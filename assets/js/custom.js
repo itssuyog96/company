@@ -4,7 +4,7 @@ $( document ).ready(function() {
 
 $('.fixed-sidebar-check').click();
 $('.horizontal-bar-check').click();
-$('.boxed-layout-check').click();
+//$('.boxed-layout-check').click();
 $('.compact-menu-check').click();
 
 
@@ -40,6 +40,5 @@ function crStartClockNow() {
 
 crInitClock();
 
-    $('#table_id').DataTable();
 
 });

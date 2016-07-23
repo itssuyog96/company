@@ -428,6 +428,7 @@ $a = new Artist();
                                             <th>DESCRIPTION</th>
                                             <th>OPEN-DATE</th>
                                             <th>CLOSE-DATE</th>
+                                            <th>MORE</th>
                                         </tr>
                                     </thead>
                                 </table>

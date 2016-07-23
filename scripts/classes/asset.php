@@ -1,10 +1,6 @@
 <?php
 
-
-include_once('../sql/shared/ez_sql_core.php');
-include_once('../sql/mysqli/ez_sql_mysqli.php');
-include_once('../db-config.php');
-
+require_once 'project.php';
 
 define(PROJ_ID_LENGTH , 4);   //Project ID Lengt
 define(VER_NO_LENGTH  , 2);   //Version No Length
@@ -51,6 +47,8 @@ class Asset extends Project{
     -ASSET ID
     **/
 
+      if($proj_id == null)
+          throw new Exception('No Project Selected!');
 
     parent::__construct($proj_id);
 
@@ -97,9 +95,26 @@ class Asset extends Project{
 
   }
 
+    
+    public function bulk_entry($data){
+        //INitialize DB pointer
+        $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
+
+        foreach($data as $d){
+
+            //Create QUER to insert data into DATABASE
+            $QUERY = "INSERT INTO `TMP_ASSET_DETAILS`(`PRJCTID`, `ASSETTYPE`, `ASSETNM`, `ASSETCODE`, `MO`, `SU`, `RI`, `HF`, `LD`, `FO`, `MP`) VALUES ('$this->pid','$d[1]','$d[2]','$d[3]','$d[4]','$d[5]','$d[6]','$d[7]','$d[8]','$d[9]','$d[10]')";
+            if($db->query($QUERY)){
+
+            }
+            else{
+                throw new Exception('Error inserting in Database| QUERY:'.$QUERY);
+            }
+        }
+    }
 
 
-  private function create_asset($id, $name, $desc, $opendt, $closedt){
+  public function create_asset($id, $name, $desc, $opendt, $closedt){
     //INitialize DB pointer
     $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
 
@@ -210,7 +225,7 @@ class Asset extends Project{
 
 
   public function update_status($uid, $new_status, $empid){
-    //recieved from Artsist class FUNCTION:update_status(same_paramater_list)
+    //recieved from Artist class FUNCTION:update_status(same_paramater_list)
     //RETURN TYPE: BOOLEAN
 
     include_once('../sql/shared/ez_sql_core.php');
