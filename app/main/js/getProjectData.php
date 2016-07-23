@@ -28,9 +28,10 @@ try{
     $data = $p->retrieveAll();
     $datax = json_decode($data, true);
     for($i = 0; $i < sizeof($datax); $i++){
-
-        $ptype =  $p->getProjectType($datax[$i]['PRJCTTYPE']);
+        $ptypeid = $datax[$i]['PRJCTTYPE'];
+        $ptype =  $p->getProjectType($ptypeid);
         $datax[$i]['PRJCTTYPE'] = $ptype;
+        $datax[$i]['PRJCTTYPEID'] = $ptypeid;
     }
 
     $data = json_encode($datax);

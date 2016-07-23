@@ -2,13 +2,13 @@
 
 class Project{
 
-  protected $pid      = null;
+  public    $pid      = null;
   protected $name     = null;
   protected $desc     = null;
   protected $type     = null;
   public    $ptypenm  = null;
-  protected $opendt   = null;
-  protected $closedt  = null;
+  private   $opendt   = null;
+  private   $closedt  = null;
   public    $oplogno  = null;
 
 
