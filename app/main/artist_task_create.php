@@ -498,6 +498,28 @@ $a = new Artist();
                             echo '|' . $_SESSION['name'] . '|' . $_SESSION['id'] . '|';
 
                             ?>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Row -->
+          
+          <div id="main-wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-body">
+                          <div id="taskTable">
+                            <table>
+                              <tr>
+                                <th>SR. NO.</th>
+                                <th>ASSET CODE</th>
+                                <th>ASSET NAME</th>
+                                <th>START DATE</th>
+                                <th>TOTAL HRS</th>
+                                <th>STATUS</th>
+                              </tr>
+                            </table>
+                          </div>
                           <button data-toggle="modal" data-target="#addAsset" class="btn btn-default">
                             ADD ASSET
                           </button>
