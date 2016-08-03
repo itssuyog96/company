@@ -5,7 +5,7 @@ $( document ).ready(function() {
 $('.fixed-sidebar-check').click();
 $('.horizontal-bar-check').click();
 //$('.boxed-layout-check').click();
-$('.compact-menu-check').click();
+//$('.compact-menu-check').click();
 
 
 $('.date-picker').datepicker({
