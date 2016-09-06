@@ -31,6 +31,7 @@ if ($e->get_emp('oplogno') == 999) {
 
  }
 */
+
 $a = new Artist();
 
 //$db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
@@ -556,7 +557,7 @@ $a = new Artist();
                                 <div class="col-md-4"><strong>Project ID : </strong><span id="project_id"></span></div>
                                 <div class="col-md-4"><strong>Project Name : </strong><span id="project_name"></span></div>
                                 <div class="col-md-4"><strong>Project Description : </strong><span id="project_desc"></span></div>
-                                
+
                             </div>
                             <hr>
                             <div class="table-responsive bulk_asset_entry">
@@ -579,7 +580,7 @@ $a = new Artist();
                                             <th>*</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                      v                  <tbody>
                                         <tr>
 
                                             <td width="5%">

@@ -502,202 +502,64 @@ $a = new Artist();
                     </div>
                 </div>
             </div><!-- Row -->
-          
-          <div id="main-wrapper">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-white">
-                        <div class="panel-body">
-                          <div id="taskTable">
-                            <table>
-                              <tr>
-                                <th>SR. NO.</th>
-                                <th>ASSET CODE</th>
-                                <th>ASSET NAME</th>
-                                <th>START DATE</th>
-                                <th>TOTAL HRS</th>
-                                <th>STATUS</th>
-                              </tr>
-                            </table>
-                          </div>
-                          <button data-toggle="modal" data-target="#addAsset" class="btn btn-default">
-                            ADD ASSET
-                          </button>
 
-                        </div>
-                    </div>
-                </div>
-            </div><!-- Row -->
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-white">
-                        <div class="panel-body">
-                            <div class="col-md-12 ProjectSelect">
-                                <form id="selectProj" name="form" method="POST" class="form-horizontal" role="form">
-                                    <div class="col-md-6 col-md-offset-2">
-                                        <div class="form-group">
-                                            <label  class="col-sm-4 control-label"
-                                                    for="project">Select Project</label>
-                                            <div class="col-sm-8">
-                                                <select id="project" name="project" class="form-control" placeholder="Select Project">
-                                                    <option></option>
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
-                                                <input id="submit" type="submit" name="submit" class="btn btn-default" value="SELECT"><img src="../../../assets/custom/loading.gif" id="img" style="display:none"/ >
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id = "showSelectError" class="col-md-12" style="display:none;">
-                                        <p>
-                                            <strong>Error : </strong><span id="selectError"></span>
-
-                                        </p>
-                                    </div>
-
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div><!-- Row -->
-
-            <div id = "asset_entry_row" class="row" style="display:none;">
-                <div class="col-md-12">
-                    <div class="panel panel-white">
-                        <div class="panel-body">
-                            <!--Multi Row input table for bulk asset entry-->
-
-                            <div class="col-md-12">
-                                <div class="col-md-4"><strong>Project ID : </strong><span id="project_id"></span></div>
-                                <div class="col-md-4"><strong>Project Name : </strong><span id="project_name"></span></div>
-                                <div class="col-md-4"><strong>Project Description : </strong><span id="project_desc"></span></div>
-                                
-                            </div>
-                            <hr>
-                            <div class="table-responsive bulk_asset_entry">
-                                <form id = "bulk_asset_form" action="js/process_bulk_entry.php" method="POST">
-
-                                    <table class="table">
-                                        <thead>
+            <div id="main-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <div class="panel-body">
+                                <div id="taskTable">
+                                    <table>
                                         <tr>
-                                            <th>#</th>
-                                            <th>ASSET TYPE</th>
-                                            <th>ASSET NAME</th>
+                                            <th>SR. NO.</th>
                                             <th>ASSET CODE</th>
-                                            <th>MODELLING</th>
-                                            <th>SURFACING</th>
-                                            <th>RIGGING</th>
-                                            <th>HAIR/FUR</th>
-                                            <th>LOOK DEV</th>
-                                            <th>FOLIAGE</th>
-                                            <th>MATTE PAINTING</th>
-                                            <th>*</th>
+                                            <th>ASSET NAME</th>
+                                            <th>START DATE</th>
+                                            <th>TOTAL HRS</th>
+                                            <th>STATUS</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-
-                                            <td width="5%">
-                                                    <input id = "index" type="text" class="form-control" name="index" value="1"
-                                                           placeholder="#" readonly/>
-
-                                            </td>
-
-                                            <td width="12%">
-                                                    <select id = "asset_type" name="asset_type" class="form-control requiredGroup" onchange="javascript:changetextbox(this.id)"
-                                                            placeholder="Select Asset Type" >
-                                                        <option>CHARACTER</option>
-                                                        <option>SET</option>
-                                                        <option>PROP</option>
-                                                        <option>R&amp;D</option>
-                                                    </select>
-
-                                            </td>
-
-                                            <td width="15%">
-                                                <input id = "asset_name" type="text" class="form-control requiredGroup" name="asset_name"
-                                                       placeholder="Name" />
-                                            </td>
-
-                                            <td width="10%">
-                                                <input id = "asset_code" type="text" class="form-control requiredGroup" name="asset_code"
-                                                       placeholder="Code"/>
-                                            </td>
-
-
-                                            <td width="5%">
-
-                                                    <input id = "modelling" type="number" min="0" class="form-control numberedGroup" name="modelling"
-                                                           placeholder="MO"/>
-                                            </td>
-
-                                            <td width="5%">
-                                                    <input type="number" id="surfacing" min="0"  class="form-control numberedGroup" name="surfacing"
-                                                           placeholder="SU"/>
-                                            </td>
-
-                                            <td width="5%">
-                                                    <input type="number" id="rigging" min="0" class="form-control numberedGroup" name="rigging"
-                                                           placeholder="RI"/>
-                                            </td>
-
-                                            <td width="5%">
-                                                    <input type="number" id="hair_fur" min="0" class="form-control numberedGroup" name="hair_fur"
-                                                           placeholder="HF"/>
-                                            </td>
-
-                                            <td width="8%">
-                                                    <input type="number" id="lookdev" min="0" class="form-control numberedGroup" name="lookdev"
-                                                           placeholder="LD"/>
-                                            </td>
-
-                                            <td width="5%">
-                                                    <input type="number" id="foliage" min="0" class="form-control numberedGroup" name="foliage"
-                                                           placeholder="FO" disabled/>
-                                            </td>
-
-                                            <td width="3%">
-                                                    <input type="number" id="matte_painting" min="0" class="form-control numberedGroup" name="matte_painting"
-                                                           placeholder="MP" disabled/>
-                                            </td>
-
-                                            <td width="5%"><input name="button" id="new_asset_row" class="btn btn-primary btn-md" type="button"
-                                                       value="+" onclick="addRow(this.parentNode.parentNode)"></td>
-                                        </tr>
-                                        </tbody>
                                     </table>
-                                    <br/><br/>
-                                    <input id="submitType" name = "submitType" type="hidden" value="bulk"/>
-                                    <input id="formSize" name = "formSize" type="hidden" value="1"/>
-                                    <input id="pid" name="pid" type="hidden" value="null"/>
-                                    <input name="submit-bulk" class="btn btn-default btn-lg" type="submit"
-                                           value="SUBMIT"/>
-                                </form>
-                            </div>
+                                </div>
+                                <button data-toggle="modal" data-target="#addAsset" class="btn btn-default">
+                                    ADD ASSET
+                                </button>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><!-- Row -->
+                </div><!-- Row -->
+
+                <div id="asset_entry_row" class="row" style="display:none;">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <div class="panel-body">
+
+                                <!--Assigned Task List-->
+                                <div class="table-responsive artist_task_list">
+
+                                </div>
+                                <!--Assigned Task List End-->
+
+                                <!--Add new asset by artist button [this opens modal]-->
+                                <div class="addAssetBtnDiv">
+                                    <button id="addAssetButton" class="btn btn-default" data-toggle="modal"
+                                            data-target="#addAsset">ADD ASSET
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Row -->
 
 
+            </div>
+            <!-- Main Wrapper -->
+            <div class="page-footer">
+                <p class="no-s">2015 &copy; by the-wire-coders.</p>
+            </div>
         </div>
-        <!-- Main Wrapper -->
-        <div class="page-footer">
-            <p class="no-s">2015 &copy; by the-wire-coders.</p>
-        </div>
-    </div>
-    <!-- Page Inner -->
+        <!-- Page Inner -->
 </main>
 <!-- Page Content -->
 <nav class="cd-nav-container" id="cd-nav">
@@ -749,8 +611,8 @@ $a = new Artist();
     </ul>
 </nav>
 <div class="cd-overlay"></div>
-  
-  
+
+
 <div class="asset-modal-div">
     <div id="asset-modal" class="asset-modal">
 
@@ -761,7 +623,7 @@ $a = new Artist();
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <button id = "close-modal" type="button" class="close"
+                        <button id="close-modal" type="button" class="close"
                                 data-dismiss="modal">
                             <span aria-hidden="true">&times;</span>
                             <span class="sr-only">Close</span>
@@ -772,67 +634,74 @@ $a = new Artist();
                     </div>
 
                     <!-- Modal Body -->
-                    <div id ="AssetAdd" class="modal-body">
+                    <div id="AssetAdd" class="modal-body">
 
 
-
-                        <form id="addAssetForm" name="form"  method="POST" class="form-horizontal" role="form">
+                        <form id="addAssetForm" name="form" method="POST" class="form-horizontal" role="form">
 
                             <input type="hidden" id="action" name="action" value="CA"/>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="ptype">Select Project</label>
-                                <div class="col-sm-8">
-                                    <select id="pid" name="pid" class="form-control" placeholder="Select Project">
-                                        <option></option>
-                                    </select>
-                                </div>
-                            </div>
-                          
-                          <div class="form-group">
-                                <label class="col-sm-2 control-label" for="atype">Asset Type</label>
-                                <div class="col-sm-8">
-                                    <select id="atype" name="atype" class="form-control" placeholder="Select Project">
+                                <div class="col-sm-10">
+                                    <select id="project" name="pid" class="form-control" placeholder="Select Project">
                                         <option></option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label"
-                                        for="anm">Asset Name</label>
+                                <label class="col-sm-2 control-label" for="atype">Asset Type</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control"
-                                           id="anm" name="anm" placeholder="Asset Name"  />
+                                    <select id="atype" name="atype" class="form-control"
+                                            placeholder="Select Project Type">
+                                        <option>CHARACTER</option>
+                                        <option>SET</option>
+                                        <option>PROP</option>
+                                        <option>R&amp;D</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
-                                       for="acode" >Asset Code</label>
+                                       for="anm">Asset Name</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control"
-                                           id="acode" name="acode" placeholder="Asset Code" />
+                                           id="anm" name="anm" placeholder="Asset Name"/>
                                 </div>
                             </div>
-                          
-                          <div class="form-group">
-                            <div class="col-sm-2">
-                              <label class="col-sm-2 control-label"
-                                      for="bid">Proposed Bid</label>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       for="acode">Asset Code</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control"
+                                           id="acode" name="acode" placeholder="Asset Code"/>
+                                </div>
                             </div>
-                               
-                            <div class="col-sm-10">
-                              <input class="form-control" type="text" id="pbid" name="pbid" placeholder="Proposed Bid" />  
+
+                            <div class="form-group" style="background-color: #D3D3D3;">
+                                <div class="col-sm-2">
+                                    <label class="col-sm-2 control-label"
+                                           for="bid">Proposed Bid (Optional)</label>
+                                </div>
+
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" id="pbid" name="pbid"
+                                           placeholder="Proposed Bid"/>
+                                </div>
+
                             </div>
-                            
-                            
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <input id="submit" type="submit" name="submit" class="btn btn-default" value="ADD ASSET"><img src="../../../assets/custom/loading.gif" id="img" style="display:none"/ >
+                                    <input id="submit" type="submit" name="submit" class="btn btn-default"
+                                           value="ADD ASSET"><img src="../../../assets/custom/loading.gif" id="img"
+                                                                  style="display:none"/ >
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -870,7 +739,7 @@ $a = new Artist();
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="js/run-toast.js"></script>
 <script src="js/getProjectList.js"></script>
-<script src="js/manage_assets.js"></script>
+<script src="js/artist_assets.js"></script>
 <script src="../../assets/js/custom.js"></script>
 </body>
 

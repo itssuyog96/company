@@ -1,82 +1,118 @@
 <?php
 
+//require_once('../../login/classes/Login.php');
+//require_once('../../../scripts/sql/shared/ez_sql_core.php');
 
-class Manager extends Employee{
+//require_once('../../../scripts/sql/mysqli/ez_sql_mysqli.php');
+//require_once('../../../scripts/db-config.php');
+//require_once('../../../scripts/classes/employee.php');
 
+class Manager{
 
-    /**
-    *
-    *JOBS:
-    -Create new Artist
-    -Create new shots
-    -Create new assets
-    -get List of all related tasks( such as versions, todo, assigned tasks by management)
-    -get List of Projects assigned to him
-    -Change status of Project
+  private $deptid = '';
 
-    *RIGHTS:
-    -Limited to department (currently)
-    -Limited to particular shots as maintained by the supervisor (afterwards)
+  function __construct(){
 
-    *CLASSES WHICH CAN BE ACCESSED:
-    -Project
-    -Shot (via Project | No direct access will be granted)
-    -Asset (via Project | No direct access will be granted)
-    *
-    **/
+    $e = new Employee();
+    $this->deptid = $e->get_emp('deptid');
+  }
 
-    public function create_seq($proj_id, $from, $to){
+  public function addNewUser($empid, $roleid, $username, $pass){
+      //Adds new user and returns login id & password
+      $flag=0;
+      // check for minimum PHP version
+      if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+          exit('Sorry, this script does not run on a PHP version smaller than 5.3.7 !');
+      } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+          // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
+          // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+          require_once('../../app/login/libraries/password_compatibility_library.php');
+      }
+      // include the config
+      require_once('../../app/login/config/config.php');
 
-      //Validate Project ID to which SEQ is ADDED
-      $p = new Project($proj_id);
-      if($p->getOPLOGNO() != 42){
-        throw new Exception('Project ID:'.$proj_id.' is not ACTIVE!');
+      // include the to-be-used language, english by default. feel free to translate your project and include something else
+      require_once('../../app/login/translations/en.php');
+      // include the PHPMailer library
+      require_once('../../app/login/libraries/PHPMailer.php');
+      require_once('../../app/login/classes/Registration.php');
+      $reg = new Registration();
+      if($reg->registerNewUser($username, $pass, $pass)){
+        $flag=1;
+      }
+      else{
+        $flag=0;
       }
 
-      //Validate SEQNO to be added
-      $QUERY = "SELECT MAX(`SEQNO`) FROM `PROJSEQ` WHERE `PID` = '$proj_id'";
-      $maxseqno = $db->get_var($QUERY);
-      if($maxseqno >= $from){
-        throw new Exception('Please verify SEQNO range. Range : '.$from.' to '.$to);
+      if($db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST)){
+        if($db->query("INSERT INTO `empmaster`(`USERID`, `EMPID`, `DEPTID`, `ROLEID`, `OPLOGNO`) VALUES ('$username', '$empid', '$this->deptid', '$roleid', '999')")){$flag=1;}
+        else{$flag=0;}
       }
+        else{$flag=0;}
 
-      //Add SEQNO to DB
-      //INitialize DB pointer
-      $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
 
-      for($i = $from; $i <= $to; $i++){
-        //Create QUER to insert data into DATABASE
-        $QUERY = "INSERT INTO `PROJSEQ`(`PID`, `SEQNO`, `STATUS`, `OPCODE`) VALUES ($p->getProjectID(), $i, '42', '')";
-        if($db->query($QUERY)){
-          return;
+        if($flag==1){
+          return true;
         }
         else{
-          throw new Exception('Query Error : <strong>'.$QUERY.'</strong>');
+          return false;
         }
+
+  }
+
+  public function getUsersList(){
+    //Gets all users list from the department whom the manager belongs
+    $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
+      if($userx = $db->get_results("SELECT USERID, EMPID, ROLEID, EMPFNM, DATEOFBIRTH, GENDER, MOBILENO, OPENDT, CLOSEDT FROM EMPMASTER WHERE DEPTID = '$this->deptid' AND ROLEID = 3")){
+        return $userx;
       }
-    }
+      else {
+        return false;
+      }
+  }
 
-    public function create_shot($proj_id, $id, $name, $des, $opendt, $closedt){
-      //ASSIGN TASK TO COMPANY (CODE IF ANY)
+  function updateUser(){
+      //Updates user information
+  }
 
-      //Call Project Constructor
-      $s = new Shot($proj_id, $id, $name, $des, $opendt, $closedt);
-      $s = null;
+  function allTasks(){
+      //Project wise task listing
+  }
 
-    }
+  function allProjects(){
+      //Lists all projects
+      $db = new ezSQL_mysqli(EZSQL_DB_USER,EZSQL_DB_PASSWORD,EZSQL_DB_NAME,EZSQL_DB_HOST);
+      if($projx = $db->get_results("SELECT `PRJCTID`, `PRJCTNM`, `PRJCTDESCRI`, `OPENDT`, `CLOSEDT` FROM `prjctmaster`")){
+        return $projx;
+      }
+      else {
+        return false;
+      }
+  }
 
-    public function create_asset($proj_id, $id, $name, $des, $opendt, $closedt){
+  public function addProject($pid, $pnm, $pdesc, $opendt, $closedt){
+      //Adds new project
+      include('project.php');
+      $p = new Project();
+      if($p->create_project($pid, $pnm, $pdesc, $opendt, $closedt)){
+        throw new Exception('From pre class');
+      }
 
-      //ASSIGN TASK TO COMPANY (CODE IF ANY)
 
-      //Call Project Constructor
-      $s = new Asset($proj_id, $id, $name, $des, $opendt, $closedt);
-      $s = null;
+  }
 
-    }
+  function forgotPass(){
+      //Manages forgotten password
+  }
+
+  function modifyProject(){
+      //Modifications in project details
+  }
+
+  function modifyTask(){
+      //Global access to do modifications in tasks
+  }
 }
 
 
-
-
- ?>
+?>

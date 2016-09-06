@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: itssu
- * Date: 23-Jul-16
- * Time: 11:41 AM
+ * Date: 24-Jul-16
+ * Time: 1:32 PM
  */
 
 require_once('../../login/classes/Login.php');
@@ -12,6 +12,7 @@ require_once('../../../scripts/sql/mysqli/ez_sql_mysqli.php');
 require_once('../../../scripts/db-config.php');
 require_once('../../../scripts/classes/employee.php');
 require_once('../../../scripts/classes/project.php');
+require_once('../../../scripts/classes/asset.php');
 
 
 $login = new Login();
@@ -24,12 +25,25 @@ if ($login->isUserLoggedIn() == false) {
 $e = new Employee();
 
 $db = new ezSQL_mysqli(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
-$proj = $_POST['project'];
-if ($projList = $db->get_results("SELECT `PRJCTID`, `PRJCTNM` , `PRJCTDESCRI` FROM `PRJCTMASTER` WHERE PRJCTID = '$proj'")) {
-    echo json_encode($projList);
-} else {
-    echo 'Error occured while fetching data';
 
+if(isset($_GET['id']) && !empty($_GET['id'])){
+
+    $a = new Asset($_GET['id']);
+    try{
+        $data = $a->retrieveAll();
+        echo '{"data":'.$data.'}';
+    }
+    catch(Exception $e){
+        header('HTTP/1.1 503 Unauthorized/Bad Request');
+        echo $e->getMessage();
+    }
+    
 }
+else{
+    header('HTTP/1.1 503 Unauthorized/Bad Request');
+    echo "BAD REQUEST";
+}
+
+
 
 ?>
